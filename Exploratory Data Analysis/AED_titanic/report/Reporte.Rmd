@@ -1,0 +1,104 @@
+---
+title: "Parcial"
+output: html_document
+date: "2024-02-22"
+---
+# Parcial 1. Catalina Cañon, David Buitrago
+## Titanic dataset analisis
+```{r}
+setwd("/Users/paulacatalinacanonsoler/Desktop/AED/AED_titanic/src")
+getwd()
+# source('')
+```
+```{r}
+sys.source('../src/main.R')
+```
+
+```{r}
+head(titanic_filtered)
+```
+## Diccionario de variables
+```{r}
+summary(titanic_all)
+```
+Al importar el dataset la información venía separada en train y test. Es por ello que se empleó la función bind_rows para fusionar ambos datasets. 
+
+#Análisis
+
+El dataset contiene contiene 1309 observaciones reacionadas al desastre del titanic. Se busca por medio de un análisis descriptivo identificar las variables de mayor relación con la supervivencia de los pasajeros.
+
+## Clase social
+Para evaluar la relación entre la supervivencia de los pasajeros y su clase social se toma en cuenta los valores en la columna 'pclass' la cual es una aproximación la clase socio-económica a la que pertenecieron los pasajeros del titanic. Se generan las siguientes tablas y gráficos.
+```{r}
+titanic_all$Pclass %>% table()
+```
+
+```{r}
+round(prop.table(table(titanic_all$Pclass, titanic_all$Survived),margin=1)*100, 2)
+```
+
+De acuerdo con los datos observados el 75% de las personas en clase baja murieron, mientras que solamente el 37% de los de clase alta fallecieron. 
+```{r}
+round(prop.table(table(titanic_all$Pclass, titanic_all$Survived),margin=2)*100, 2)
+```
+A su vez, del 100% de los pasajeros que sobrevivieron casi el 40% pertenecieron a primera clase y un 34% a clase baja. Es notable decir que más del 65% de fallecidos eran de clase baja. También cabe considerar que la mayoría de los pasajeros viajaron en esta clase.
+
+##Visualización
+
+```{r}
+ggplot(titanic_filtered, aes(x = Pclass, fill = Survived)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Numero de personas que sobrevieron respecto a su clase",
+       x = "Clase resgitrada de la persona",
+       y = "Numero de supervivientes ") +
+  scale_fill_manual(values = c("No" = "#5CA3EB", "Sí" = "#29C1EA"), name = "Sobrevivió") +  # Personalizar colores
+  theme_minimal()
+```
+
+```{r}
+ggplot(titanic_filtered, aes(x = Pclass, fill = Survived)) +
+  geom_bar(position = "fill") +
+  coord_flip()+
+  labs(title = "% de sobrevientes respecto a la Clase",
+       x = "Clase social registrada",
+       y = "Proporción de personas") +
+  scale_fill_manual(values = c("No" = "#5CA3EB", "Sí" = "#29C1EA"), name = "Sobrevivió") +  # Personalizar colores
+  theme_minimal()
+```
+
+
+
+
+```{r}
+ggplot(titanic_filtered_2, aes(x = Survived, fill = Pclass)) +
+  geom_bar(position = "stack") +
+  coord_flip()+
+  labs(title = "# de sobrevientes respecto a la Clase",
+       x = "Sobrevivientes",
+       y = "Numero de personas") +
+  scale_fill_manual(values = c("Alto" = "#5CA3EB", "Medio" = "#29C1EA", 'Bajo'= '#8AE3EA'), name = "Clase") +  # Personalizar colores
+  theme_minimal()
+```
+
+Los gráficos anteriores corroboran la relación análizada anteriormente entre el número de fallecidos por clase tanto en proporción como en frecuencia. Los fallecidos de tercera clase doblan en número a los fallecidos en las demás clases. La clase con mayor porcentaje de supervivencia corresponde a la clase alta.  
+
+## Edad
+
+```{r}
+ggplot(titanic_age, aes(x = Age, fill = Survived)) +
+  geom_histogram(data = subset(titanic_age), 
+                 binwidth = 5,
+                 position = 'stack', 
+                 color = 'white',
+                 alpha = 0.5) +  # Color para los que sobrevivieron
+  labs(x = 'Edad',
+       y = 'Número',
+       title = 'Intervalos de edad cada 5 años',
+       caption = 'Medido en años') +
+  scale_fill_manual(values = c('No' = '#2A89DB', 'Sí' = '#69CBDC'), name = "Sobrevivió") +  # Personalizar los colores de la leyenda
+  theme()
+```
+Gracias a este gráfico se evidencia que en el rango de 0 a 15 hay un mayor porcentaje de superivencia que en el resto de la población. Por otro lado, en un rango de 20 a 45 años donde se concentra la mayoría de la pobación hay menos sobrevivientes. A partir de 50 años el porcentaje de supervivencia se reduce considerablemente.
+
+# Retroalimentación de la clase
+Nos ha gustado el aprendizaje y la profundidad en R y sus herramientas para el análisis de datos. En términos prácticos ha sido muy aplicable teniendo en cuenta bases de datos y proyectos de ejemplo. :)
