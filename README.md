@@ -1,2 +1,11 @@
-# Statistics-projects
-A collection of statistics projects covering topics such as descriptive analysis, probability distributions, hypothesis testing, regression models, and data visualization.
+# Statistics-Projects
+
+Practical and educational projects covering descriptive statistics, probability, and statistical inference.
+
+## Technologies
+- Python (NumPy, Pandas, Matplotlib, SciPy)
+- Jupyter Notebooks
+- R
+
+## License
+This repository is licensed under the MIT License.
